@@ -21,7 +21,7 @@ app.post("/posts/:id/comments", (req, res) => {
   const { content } = req.body;
 
   const comments = commentsByPostId[req.params.id] || []; //give the array if there is any or give emty array if undefined
-  commentsByPostId.push({ id: commentId, content });
+  comments.push({ id: commentId, content });
 
   commentsByPostId[req.params.id] = comments;
   res.status(201).send(comments);
