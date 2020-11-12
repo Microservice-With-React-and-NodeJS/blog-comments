@@ -2,10 +2,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const { randomBytes } = require("crypto");
+const cors = require("cors");
 
 //create app
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 const commentsByPostId = {};
 
@@ -26,6 +28,6 @@ app.post("/posts/:id/comments", (req, res) => {
 });
 
 //listen to app
-app.listen(4000, () => {
+app.listen(4001, () => {
   console.log("Comments app listening on 4001!");
 });
