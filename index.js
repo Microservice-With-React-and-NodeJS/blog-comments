@@ -42,7 +42,7 @@ app.post("/posts/:id/comments", async (req, res) => {
 });
 
 //post req to handle incoming events
-app.post("/events", (req, res) => {
+app.post("/events", async (req, res) => {
   console.log("Received comment event:", req.body.type);
   //pull of the type and data properties from req.body
   const { type, data } = req.body;
@@ -58,7 +58,18 @@ app.post("/events", (req, res) => {
     });
     //got the specific comment, now update the status
     comment.status = status;
-    //status updated! now tell other services that an update just occured
+    //status updated! now tell other services that an update just occured.
+    // create CommentUpdated event with type and data in it and send it to event-bus
+    await axios.post("http://localhost:4005/events", {
+      type: "CommentUpdated",
+      data: {
+        id,
+        status,
+        postId,
+        content
+      }
+    });
+    //event created, now pass it to query service
   }
 
   res.send({});
