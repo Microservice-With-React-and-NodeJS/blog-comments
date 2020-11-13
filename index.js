@@ -41,8 +41,26 @@ app.post("/posts/:id/comments", async (req, res) => {
   res.status(201).send(comments);
 });
 
+//post req to handle incoming events
 app.post("/events", (req, res) => {
   console.log("Received comment event:", req.body.type);
+  //pull of the type and data properties from req.body
+  const { type, data } = req.body;
+
+  if (type === "CommentModerated") {
+    // pull out the comment that is stored inside data structure of commentsByPostId. reason : we need the right comment of right post and update the status property
+    const { postId, id, status } = data;
+    //get all the comments associated to that postId
+    const comments = commentsByPostId[postId];
+    //iterate through the comments array and find the one comment that needs to updated by status
+    const comment = comments.find(comment => {
+      return comment.id === id;
+    });
+    //got the specific comment, now update the status
+    comment.status = status;
+    //status updated! now tell other services that an update just occured
+  }
+
   res.send({});
 });
 
