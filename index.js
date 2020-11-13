@@ -49,7 +49,7 @@ app.post("/events", async (req, res) => {
 
   if (type === "CommentModerated") {
     // pull out the comment that is stored inside data structure of commentsByPostId. reason : we need the right comment of right post and update the status property
-    const { postId, id, status } = data;
+    const { postId, id, status, content } = data;
     //get all the comments associated to that postId
     const comments = commentsByPostId[postId];
     //iterate through the comments array and find the one comment that needs to updated by status
