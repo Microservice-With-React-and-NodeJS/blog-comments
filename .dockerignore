@@ -1,0 +1,2 @@
+# makes sure during the image building process wthe node_module directory is not copied over because: the image will install all the relevent depencencies on its own
+node_modules
