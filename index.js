@@ -28,7 +28,7 @@ app.post("/posts/:id/comments", async (req, res) => {
 
   //emit event whenever something interesting happening
   //axios
-  await axios.post("http://localhost:4005/events", {
+  await axios.post("http://event-bus-srv:4005/events", {
     type: "CommentCreated",
     data: {
       id: commentId,
@@ -60,7 +60,7 @@ app.post("/events", async (req, res) => {
     comment.status = status;
     //status updated! now tell other services that an update just occured.
     // create CommentUpdated event with type and data in it and send it to event-bus
-    await axios.post("http://localhost:4005/events", {
+    await axios.post("http://event-bus-srv:4005/events", {
       type: "CommentUpdated",
       data: {
         id,
